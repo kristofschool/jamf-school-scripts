@@ -1,0 +1,77 @@
+# Jamf School Focus Script
+
+Bash-script voor het activeren van Jamf School "Lessen" voor individuele leerlingen.
+
+## Veiligheidswaarschuwing ⚠️
+
+**Dit script bevat gevoelige credentials!** Zorg ervoor dat het `.env` bestand **NOOIT** wordt gecommit naar GitHub.
+
+Het `.env` bestand staat al in `.gitignore` om dit te voorkomen.
+
+## Installatie
+
+1. Clone de repository:
+```bash
+git clone [YOUR_REPO_URL]
+cd jamf-focus-script
+```
+
+2. Kopieer het voorbeeld environment bestand:
+```bash
+cp .env.example .env
+```
+
+3. Vul je eigen Jamf School credentials in het `.env` bestand:
+```bash
+JAMF_DOMAIN="vobw.jamfcloud.com"
+JAMF_AUTH="YOUR_AUTH_TOKEN"
+JAMF_USER="your.username"
+JAMF_PASS="your_password"
+JAMF_COMPANY=YOUR_COMPANY_ID
+```
+
+## Gebruik
+
+Het script start een les (focus-profiel) voor een specifieke leerling:
+
+```bash
+./start_les.sh
+```
+
+### Configuratie in het script
+
+Pas de volgende variabelen aan in `start_les.sh` voor je gebruik:
+
+```bash
+STUDENT_ID=9445      # Leerling ID
+LESSON_ID=945        # Les ID (focus profile)
+DURATION=300         # Duur in seconden (5 minuten)
+```
+
+## Technische Details
+
+### Protocol Versies
+- **Authenticatie**: Protocol Version 2
+- **Start Les**: Protocol Version 4
+
+### API Endpoints
+- Authenticatie: `POST /api/teacher/authenticate`
+- Start Les: `POST /api/teacher/lessons/start/{id}`
+
+### Payload Structuur (V4)
+Voor scope `student` zijn beide velden verplicht:
+- `scopeId` (integer) - De leerling ID
+- `students` (array van integers) - Array met leerling ID('s)
+
+## Verificatie
+
+Controleer na push naar GitHub dat het `.env` bestand **NIET** zichtbaar is:
+```bash
+git ls-files | grep .env
+```
+
+Als er geen output is, is alles in orde! ✅
+
+## License
+
+MIT
